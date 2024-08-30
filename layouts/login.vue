@@ -1,8 +1,16 @@
 <template>
   <v-app>
     <v-main>
+      <ui-alert
+        v-if="showAlert"
+        :color="color"
+        :type="type"
+        :icon="icon"
+        :message="message"
+        class="alert"
+      />
       <v-row align="center" justify="center" class="login">
-        <nuxt />
+        <Nuxt />
       </v-row>
     </v-main>
   </v-app>
@@ -10,6 +18,32 @@
 
 <script>
 export default {
+  data () {
+    return {
+      showAlert: false,
+      color: '',
+      type: '',
+      message: '',
+      icon: ''
+    }
+  },
+  created () {
+    this.$nuxt.$on('show-alert', (data) => {
+      // eslint-disable-next-line no-console
+      console.log('Layout => ', data)
+      this.showAlert = data.showAlert
+      this.color = data.color
+      this.type = data.type
+      this.message = data.message
+      this.icon = data.icon
+      setTimeout(() => {
+        this.showAlert = false
+      }, 2000)
+    })
+  },
+  beforeDestroy () {
+    this.$nuxt.$off('show-alert')
+  }
 }
 </script>
 
@@ -18,5 +52,10 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: rgb(47, 58, 68);
+}
+.alert {
+  position: absolute;
+  right: 10px;
+  top: 10px
 }
 </style>

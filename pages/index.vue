@@ -1,5 +1,5 @@
 <template>
-  <login-card />
+  <login-card @show-alert="showAlert" />
 </template>
 
 <script>
@@ -9,6 +9,13 @@ export default {
   components: {
     loginCard
   },
-  layout: 'login'
+  layout: 'login',
+  methods: {
+    showAlert (data) {
+      // eslint-disable-next-line no-console
+      console.log('"Data  owo => "', data)
+      this.$nuxt.$emit('show-alert', data)
+    }
+  }
 }
 </script>
